@@ -1,6 +1,6 @@
-# Adhi.id — Landing Page (Single File)
+# Adhi.web.id — Landing Page (Single File)
 
-Landing page satu file untuk **Adhi.id**, jasa pembuatan landing page website untuk UMKM, cafe, restoran, dan personal brand di Indonesia.
+Landing page satu file untuk **Adhi.web.id**, jasa pembuatan landing page website untuk UMKM, cafe, restoran, dan personal brand di Indonesia.
 
 > Tagline: *"Setiap usaha punya tempatnya di semesta internet"*
 
@@ -9,12 +9,12 @@ Landing page satu file untuk **Adhi.id**, jasa pembuatan landing page website un
 ## 1. Fitur yang Sudah Selesai
 
 - ✅ **Satu file HTML** (`index.html`) — semua CSS & JS inline, tanpa library eksternal (kecuali Google Fonts).
-- ✅ **Logo SVG inline** (lingkaran + bintang 4-titik gold + teks "adhi.id") di header & footer.
+- ✅ **Logo SVG inline** (lingkaran + bintang 4-titik gold + teks "adhi.web.id") di header & footer.
 - ✅ **Header sticky** dengan backdrop blur, nav anchor (desktop) + hamburger menu slide-down (mobile <768px).
 - ✅ **Hero** dengan badge, headline besar, sub-headline, 2 CTA, dan trust strip.
 - ✅ **Portfolio** — 3 card live (Senja Cafe, Warung Makan, Bakso Mantab) dengan badge berwarna & ikon Tabler (SVG inline). Link buka tab baru.
 - ✅ **Layanan** — 3 blok bergantian kiri-kanan dengan ikon palette / world / rocket.
-- ✅ **Kenapa Adhi.id** — section beda background + grid 4 bullet.
+- ✅ **Kenapa Adhi.web.id** — section beda background + grid 4 bullet.
 - ✅ **Harga** — 3 kartu paket (Starter / Standard featured / Pro) + tabel perbandingan.
 - ✅ **Proses Kerja** — 4 langkah dengan nomor besar + garis putus-putus penghubung.
 - ✅ **Testimoni** — card placeholder dengan kutip besar & 5 bintang outline.

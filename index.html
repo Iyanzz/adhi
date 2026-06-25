@@ -1,1098 +1,303 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Adhi.web.id — Jasa Pembuatan Landing Page untuk UMKM, Cafe & Personal Brand</title>
-<meta name="description" content="Adhi.web.id bantu bikin landing page profesional untuk UMKM, cafe, restoran, dan personal brand. Harga transparan, dikerjakan langsung, komunikasi via WhatsApp." />
-
-<!-- Google Fonts (satu-satunya dependensi eksternal) -->
-<link rel="preconnect" href="https://fonts.googleapis.com" />
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet" />
-
-<style>
-/* ============================================================
-   ADHI.WEB.ID — LANDING PAGE
-   Semua CSS inline. Palet warna dark + aksen gold.
-   ============================================================ */
-
-:root{
-  --bg:#111318;
-  --bg-card:#181B22;
-  --bg-footer:#0D0F13;
-  --border:#2A2D35;
-  --text:#F0F2F7;
-  --muted:#A0A8B8;
-  --gold:#E8A838;
-  --teal:#1D9E75;
-  --coral:#D85A30;
-}
-
-*{ margin:0; padding:0; box-sizing:border-box; }
-
-html{ scroll-behavior:smooth; scroll-padding-top:80px; }
-
-body{
-  font-family:'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
-  background:var(--bg);
-  color:var(--text);
-  line-height:1.75;
-  overflow-x:hidden;
-}
-
-/* ---- Canvas background layer ---- */
-#starfield{
-  position:fixed;
-  top:0; left:0;
-  width:100%; height:100%;
-  z-index:0;
-  pointer-events:none;
-  transition:opacity 0.4s ease;
-}
-
-/* Konten selalu di atas canvas */
-header, main, footer{ position:relative; z-index:2; }
-
-/* ---- Layout helpers ---- */
-.container{ width:100%; max-width:1140px; margin:0 auto; padding:0 24px; }
-
-section{ padding:90px 0; position:relative; }
-.section-divider{ border-top:1px solid var(--border); }
-
-.section-head{ text-align:center; max-width:680px; margin:0 auto 56px; }
-.section-head h2{
-  font-size:clamp(1.5rem, 3vw, 2.2rem);
-  font-weight:700;
-  color:var(--text);
-  margin-bottom:14px;
-  letter-spacing:-0.02em;
-}
-.section-head p{ color:var(--muted); font-size:1.02rem; }
-
-/* ---- Logo ---- */
-.logo{ display:inline-flex; align-items:center; gap:8px; height:32px; text-decoration:none; }
-.logo svg{ display:block; }
-.logo-text{ font-size:1.35rem; font-weight:800; letter-spacing:-0.01em; line-height:1; }
-.logo-text .lt-white{ color:var(--text); }
-.logo-text .lt-gold{ color:var(--gold); }
-
-/* ---- Buttons ---- */
-.btn{
-  display:inline-flex; align-items:center; justify-content:center; gap:8px;
-  font-family:inherit; font-size:0.98rem; font-weight:700;
-  border-radius:8px; padding:11px 22px; cursor:pointer;
-  text-decoration:none; border:1px solid transparent;
-  transition:transform .2s ease, background .2s ease, border-color .2s ease, box-shadow .2s ease;
-  white-space:nowrap;
-}
-.btn-gold{ background:var(--gold); color:var(--bg); }
-.btn-gold:hover{ background:#f2b748; transform:translateY(-2px); box-shadow:0 8px 20px -8px rgba(232,168,56,0.5); }
-.btn-outline{ background:transparent; color:var(--text); border-color:var(--border); }
-.btn-outline:hover{ border-color:var(--gold); transform:translateY(-2px); }
-
-/* ============================================================
-   HEADER
-   ============================================================ */
-header{
-  position:sticky; top:0; left:0; width:100%; z-index:50;
-  backdrop-filter:blur(12px); -webkit-backdrop-filter:blur(12px);
-  background:rgba(17,19,24,0.85);
-  border-bottom:1px solid var(--border);
-}
-.nav-wrap{ display:flex; align-items:center; justify-content:space-between; height:70px; }
-.nav-links{ display:flex; align-items:center; gap:30px; list-style:none; }
-.nav-links a{
-  color:var(--muted); text-decoration:none; font-size:0.95rem; font-weight:600;
-  position:relative; transition:color .2s ease;
-}
-.nav-links a:hover{ color:var(--text); }
-.nav-links a::after{
-  content:''; position:absolute; left:0; bottom:-6px; height:2px; width:0;
-  background:var(--gold); transition:width .25s ease;
-}
-.nav-links a:hover::after{ width:100%; }
-.nav-right{ display:flex; align-items:center; gap:14px; }
-
-.hamburger{
-  display:none; background:none; border:none; cursor:pointer; padding:6px;
-  flex-direction:column; gap:5px; z-index:60;
-}
-.hamburger span{ display:block; width:24px; height:2px; background:var(--text); transition:.3s; border-radius:2px; }
-.hamburger.open span:nth-child(1){ transform:translateY(7px) rotate(45deg); }
-.hamburger.open span:nth-child(2){ opacity:0; }
-.hamburger.open span:nth-child(3){ transform:translateY(-7px) rotate(-45deg); }
-
-/* Mobile slide-down nav */
-.mobile-nav{
-  display:none;
-  position:fixed; top:70px; left:0; width:100%;
-  background:rgba(17,19,24,0.97); backdrop-filter:blur(12px);
-  border-bottom:1px solid var(--border);
-  flex-direction:column; padding:16px 24px 24px; gap:6px;
-  transform:translateY(-120%); transition:transform .35s ease; z-index:45;
-}
-.mobile-nav.open{ transform:translateY(0); }
-.mobile-nav a{
-  color:var(--text); text-decoration:none; font-weight:600; font-size:1.05rem;
-  padding:12px 0; border-bottom:1px solid var(--border);
-}
-.mobile-nav .btn{ margin-top:14px; }
-
-/* ============================================================
-   HERO
-   ============================================================ */
-#hero{ padding-top:120px; padding-bottom:90px; text-align:center; }
-.badge-pill{
-  display:inline-flex; align-items:center; gap:6px;
-  border:1px solid var(--border); background:var(--bg-card);
-  color:var(--muted); font-size:13px; font-weight:600;
-  padding:6px 14px; border-radius:999px; margin-bottom:26px;
-}
-.badge-pill .star{ color:var(--gold); }
-#hero h1{
-  font-size:clamp(2.2rem, 5vw, 4.5rem);
-  font-weight:800; color:var(--text); line-height:1.1;
-  letter-spacing:-0.03em; max-width:900px; margin:0 auto 22px;
-}
-#hero .sub{ color:var(--muted); font-size:1.1rem; max-width:680px; margin:0 auto 34px; }
-.hero-cta{ display:flex; gap:14px; justify-content:center; flex-wrap:wrap; margin-bottom:30px; }
-.trust-strip{
-  display:flex; align-items:center; justify-content:center; gap:14px; flex-wrap:wrap;
-  font-size:13px; color:var(--muted);
-}
-.trust-strip .check{ color:var(--gold); font-weight:700; }
-.trust-strip .dot{ color:var(--border); }
-
-/* ============================================================
-   PORTFOLIO
-   ============================================================ */
-.portfolio-grid{
-  display:grid; grid-template-columns:repeat(auto-fit, minmax(280px, 1fr));
-  gap:24px;
-}
-.port-card{
-  background:var(--bg-card); border:1px solid var(--border); border-radius:14px;
-  overflow:hidden; transition:transform .25s ease, border-color .25s ease;
-  display:flex; flex-direction:column;
-}
-.port-card:hover{ transform:translateY(-2px); border-color:var(--gold); }
-.port-thumb{ height:160px; display:flex; align-items:center; justify-content:center; overflow:hidden; position:relative; background-size:cover; background-position:center; background-repeat:no-repeat; }
-.port-thumb img{ width:100%; height:100%; object-fit:cover; display:block; }
-.port-body{ padding:20px 22px 24px; display:flex; flex-direction:column; flex:1; }
-.port-badge{
-  display:inline-block; align-self:flex-start; font-size:12px; font-weight:700;
-  padding:4px 12px; border-radius:999px; margin-bottom:12px;
-}
-.port-card h3{ font-size:1.2rem; font-weight:700; margin-bottom:8px; }
-.port-card p{ color:var(--muted); font-size:0.95rem; flex:1; margin-bottom:18px; }
-.port-card .btn{ align-self:flex-start; }
-
-/* ============================================================
-   LAYANAN (blok bergantian)
-   ============================================================ */
-.feature-block{
-  display:grid; grid-template-columns:1fr 1fr; gap:48px; align-items:center;
-  margin-bottom:64px;
-}
-.feature-block:last-child{ margin-bottom:0; }
-.feature-block.reverse .fb-text{ order:2; }
-.feature-block.reverse .fb-visual{ order:1; }
-.fb-label{
-  font-family:'JetBrains Mono', monospace; font-size:1.1rem; color:var(--gold);
-  display:inline-block; margin-bottom:10px;
-}
-.fb-text h3{ font-size:clamp(1.3rem,2.4vw,1.7rem); font-weight:700; margin-bottom:18px; letter-spacing:-0.02em; }
-.fb-list{ list-style:none; display:flex; flex-direction:column; gap:12px; }
-.fb-list li{ display:flex; gap:10px; align-items:flex-start; color:var(--muted); }
-.fb-list li .check{ color:var(--gold); font-weight:700; flex-shrink:0; }
-.fb-visual{ display:flex; align-items:center; justify-content:center; }
-.fb-visual .visual-card{
-  background:var(--bg-card); border:1px solid var(--border); border-radius:18px;
-  width:100%; min-height:240px; display:flex; align-items:center; justify-content:center;
-  transition:transform .25s ease, border-color .25s ease;
-}
-.fb-visual .visual-card:hover{ transform:translateY(-2px); border-color:var(--gold); }
-
-/* ============================================================
-   KENAPA ADHI.WEB
-   ============================================================ */
-#kenapa{ background:var(--bg-card); border-top:1px solid var(--border); border-bottom:1px solid var(--border); }
-.kenapa-wrap{ max-width:820px; margin:0 auto; text-align:center; }
-.kenapa-wrap h2{ font-size:clamp(1.5rem,3vw,2.2rem); font-weight:700; margin-bottom:18px; letter-spacing:-0.02em; }
-.kenapa-wrap > p{ color:var(--muted); font-size:1.05rem; margin-bottom:40px; }
-.kenapa-grid{ display:grid; grid-template-columns:1fr 1fr; gap:18px 32px; text-align:left; }
-.kenapa-grid li{ display:flex; gap:10px; align-items:flex-start; list-style:none; color:var(--text); font-weight:600; }
-.kenapa-grid li .check{ color:var(--gold); font-weight:700; flex-shrink:0; }
-
-/* ============================================================
-   HARGA
-   ============================================================ */
-.price-grid{
-  display:grid; grid-template-columns:repeat(auto-fit, minmax(290px, 1fr));
-  gap:24px; align-items:start; margin-bottom:56px;
-}
-.price-card{
-  background:var(--bg-card); border:1px solid var(--border); border-radius:16px;
-  padding:30px 26px; display:flex; flex-direction:column;
-  transition:transform .25s ease, border-color .25s ease;
-  position:relative;
-}
-.price-card:hover{ transform:translateY(-2px); border-color:var(--gold); }
-.price-card.featured{ border:1.5px solid var(--gold); }
-.price-badge{
-  display:inline-block; align-self:flex-start; font-size:12px; font-weight:700;
-  padding:4px 12px; border-radius:999px; margin-bottom:16px;
-}
-.price-name{ font-size:1.3rem; font-weight:800; margin-bottom:10px; }
-.price-amount{ display:flex; align-items:baseline; gap:6px; margin-bottom:8px; flex-wrap:wrap; }
-.price-amount .num{ font-family:'JetBrains Mono', monospace; font-size:1.8rem; color:var(--text); font-weight:500; }
-.price-amount .per{ font-size:0.82rem; color:var(--muted); }
-.price-desc{ color:var(--muted); font-size:0.92rem; margin-bottom:22px; min-height:42px; }
-.price-features{ list-style:none; display:flex; flex-direction:column; gap:11px; margin-bottom:26px; flex:1; }
-.price-features li{ display:flex; gap:10px; align-items:flex-start; font-size:0.93rem; }
-.price-features li .check{ color:var(--gold); font-weight:700; flex-shrink:0; }
-.price-features li.disabled{ color:var(--muted); }
-.price-features li.disabled span.label{ text-decoration:line-through; text-decoration-color:rgba(160,168,184,0.5); }
-.price-features li .cross{ color:var(--muted); font-weight:700; flex-shrink:0; }
-.price-card .btn{ width:100%; }
-
-/* Tabel perbandingan */
-.compare-table{ width:100%; border-collapse:collapse; font-size:0.92rem; overflow:hidden; border-radius:12px; }
-.compare-table th, .compare-table td{ border:1px solid var(--border); padding:13px 16px; text-align:center; }
-.compare-table th{ background:var(--bg-card); color:var(--text); font-weight:700; }
-.compare-table td:first-child, .compare-table th:first-child{ text-align:left; color:var(--text); font-weight:600; }
-.compare-table td{ color:var(--text); }
-.compare-table .yes{ color:var(--gold); font-weight:700; }
-.compare-table .no{ color:var(--muted); }
-.table-scroll{ overflow-x:auto; }
-
-/* Overlay gelap untuk section padat (Harga & FAQ) */
-.dense-overlay::before{
-  content:''; position:absolute; inset:0; z-index:-1;
-  background:var(--bg); opacity:0.6; pointer-events:none;
-}
-
-/* ============================================================
-   PROSES KERJA
-   ============================================================ */
-.process-grid{ display:grid; grid-template-columns:repeat(4, 1fr); gap:0; position:relative; }
-.process-step{ padding:0 18px; position:relative; text-align:center; }
-.process-step:not(:last-child)::after{
-  content:''; position:absolute; top:34px; right:-1px; width:100%;
-  border-top:2px dashed var(--border); z-index:0;
-}
-.process-num{
-  font-family:'JetBrains Mono', monospace; font-size:2.4rem; font-weight:500;
-  color:var(--border); line-height:1; position:relative; z-index:1;
-}
-.process-icon{
-  width:46px; height:46px; margin:14px auto 16px; display:flex; align-items:center; justify-content:center;
-  background:var(--bg-card); border:1px solid var(--border); border-radius:12px; position:relative; z-index:1;
-}
-.process-step h3{ font-size:1.05rem; font-weight:700; margin-bottom:8px; color:var(--text); }
-.process-step p{ color:var(--muted); font-size:0.9rem; }
-
-/* ============================================================
-   TESTIMONI
-   ============================================================ */
-.testi-card{
-  background:var(--bg-card); border:1px solid var(--border); border-radius:18px;
-  padding:44px 40px; max-width:720px; margin:0 auto; position:relative; text-align:center;
-}
-.testi-quote{ font-size:5rem; line-height:1; color:var(--gold); opacity:0.3; font-family:Georgia, serif; margin-bottom:-20px; }
-.testi-text{ font-size:1.15rem; color:var(--text); margin-bottom:24px; font-weight:600; }
-.testi-name{ color:var(--muted); font-size:0.95rem; margin-bottom:14px; }
-.testi-stars{ display:flex; gap:6px; justify-content:center; color:var(--gold); }
-
-/* ============================================================
-   FAQ
-   ============================================================ */
-.faq-list{ max-width:760px; margin:0 auto; }
-.faq-item{ border-bottom:1px solid var(--border); }
-.faq-q{
-  width:100%; background:none; border:none; cursor:pointer; font-family:inherit;
-  display:flex; align-items:center; justify-content:space-between; gap:16px;
-  padding:22px 0; text-align:left; color:var(--text); font-size:1.05rem; font-weight:600;
-}
-.faq-q .faq-icon{ flex-shrink:0; color:var(--muted); transition:color .2s ease; display:flex; }
-.faq-item.active .faq-q{ color:var(--gold); }
-.faq-item.active .faq-q .faq-icon{ color:var(--gold); }
-.faq-a{ max-height:0; overflow:hidden; transition:max-height .35s ease; }
-.faq-a p{ color:var(--muted); padding:0 0 22px; font-size:0.98rem; }
-
-/* ============================================================
-   CTA PENUTUP
-   ============================================================ */
-#cta{
-  background:var(--bg-card); border-top:1px solid var(--border); border-bottom:1px solid var(--border);
-  text-align:center; position:relative; overflow:hidden;
-}
-#cta .signature-star{
-  position:absolute; top:34px; right:8%; z-index:1;
-}
-#cta h2{ font-size:clamp(1.6rem,3.2vw,2.4rem); font-weight:800; max-width:760px; margin:0 auto 18px; letter-spacing:-0.02em; }
-#cta p{ color:var(--muted); font-size:1.08rem; max-width:560px; margin:0 auto 32px; }
-#cta .btn-big{ font-size:1.1rem; padding:15px 34px; border-radius:10px; }
-
-/* signature star pulse animation */
-@keyframes sigpulse{
-  0%,100%{ transform:scale(1); opacity:0.7; }
-  50%{ transform:scale(1.35); opacity:1; }
-}
-.signature-star svg{ animation:sigpulse 2.6s ease-in-out infinite; }
-
-/* ============================================================
-   FOOTER
-   ============================================================ */
-footer{ background:var(--bg-footer); border-top:1px solid var(--border); padding:46px 0 38px; text-align:center; }
-footer .logo{ margin-bottom:18px; }
-footer .copy{ color:var(--muted); font-size:0.92rem; margin-bottom:6px; }
-footer .ftag{ color:var(--muted); font-size:0.86rem; opacity:0.8; }
-footer .ftag .star{ color:var(--gold); }
-
-/* ============================================================
-   SCROLL REVEAL
-   ============================================================ */
-.reveal{ opacity:0; transform:translateY(20px); transition:opacity .5s ease, transform .5s ease; }
-.reveal.visible{ opacity:1; transform:translateY(0); }
-
-/* ============================================================
-   RESPONSIVE
-   ============================================================ */
-@media (max-width:1024px){
-  .feature-block{ gap:32px; }
-}
-@media (max-width:768px){
-  section{ padding:64px 0; }
-  #hero{ padding-top:80px; }
-  .nav-links{ display:none; }
-  .nav-right .btn{ display:none; }
-  .hamburger{ display:flex; }
-  .mobile-nav{ display:flex; }
-
-  .feature-block{ grid-template-columns:1fr; gap:24px; margin-bottom:48px; }
-  .feature-block.reverse .fb-text{ order:1; }
-  .feature-block.reverse .fb-visual{ order:2; }
-
-  .kenapa-grid{ grid-template-columns:1fr; gap:14px; }
-
-  .process-grid{ grid-template-columns:1fr; gap:28px; }
-  .process-step{ text-align:left; display:grid; grid-template-columns:auto 1fr; gap:0 18px; align-items:start; }
-  .process-step .process-num{ grid-row:span 3; }
-  .process-step:not(:last-child)::after{ display:none; }
-  .process-icon{ margin:0 0 12px; }
-
-  #cta .signature-star{ right:6%; top:24px; }
-}
-
-/* ============================================================
-   PREFERS REDUCED MOTION
-   ============================================================ */
-@media (prefers-reduced-motion: reduce){
-  html{ scroll-behavior:auto; }
-  .reveal{ opacity:1 !important; transform:none !important; transition:none !important; }
-  .signature-star svg{ animation:none; }
-  .btn, .port-card, .price-card, .visual-card{ transition:none; }
-}
-</style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>adhi.web.id | Jasa Pembuatan Website Premium</title>
+  <meta name="description" content="adhi.web.id - Bangun Bisnismu, Ternak Uangmu. Website profesional yang bekerja 24/7 untuk bisnis Anda." />
+  <meta name="theme-color" content="#0B0B0E" />
+  <meta name="robots" content="index, follow" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    :root{
+      --gold:#D4AF37;
+      --gold-soft:#f1d67a;
+      --bg:#070709;
+      --bg-2:#0d0d12;
+      --card:rgba(255,255,255,.05);
+      --line:rgba(212,175,55,.2);
+      --text:#f5f6fa;
+      --muted:#b6bccb;
+    }
+    *{scroll-behavior:smooth}
+    body{
+      font-family:'Plus Jakarta Sans',system-ui,-apple-system,sans-serif;
+      background: radial-gradient(circle at 75% 20%, rgba(212,175,55,.15), transparent 30%),
+                  radial-gradient(circle at 15% 80%, rgba(212,175,55,.08), transparent 35%),
+                  linear-gradient(180deg,var(--bg),var(--bg-2));
+      color:var(--text);
+      overflow-x:hidden;
+    }
+    .glass{
+      background: rgba(255,255,255,.04);
+      border:1px solid rgba(255,255,255,.12);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+    }
+    .gold-glow{ box-shadow:0 0 0 1px rgba(212,175,55,.35),0 0 30px rgba(212,175,55,.15); }
+    .starfield{ position:fixed; inset:0; pointer-events:none; z-index:-1; opacity:.65; }
+    .section-title{ @apply text-3xl md:text-4xl font-extrabold tracking-tight; }
+    .aos{opacity:0; transform:translateY(20px); transition:all .7s ease;}
+    .aos.show{opacity:1; transform:none;}
+    .planet{
+      width:340px;height:340px;border-radius:999px;position:relative;
+      background:
+        radial-gradient(circle at 30% 35%, #5f89c7 0%, #203b66 35%, #0f172a 70%),
+        radial-gradient(circle at 70% 60%, #1b2741, #0b1020 70%);
+      border:1px solid rgba(212,175,55,.45);
+      box-shadow: 0 0 60px rgba(212,175,55,.25), inset -40px -30px 60px rgba(0,0,0,.55);
+      overflow:hidden;
+    }
+    .planet::before{
+      content:"";position:absolute;inset:-20%;
+      background:radial-gradient(circle at 70% 30%, rgba(255,255,255,.35), transparent 35%);
+      mix-blend-mode:screen;
+      animation:float 8s ease-in-out infinite;
+    }
+    .planet::after{
+      content:"";position:absolute;inset:0;
+      background:radial-gradient(circle at 80% 20%, rgba(212,175,55,.35), transparent 40%);
+    }
+    .ring{
+      position:absolute;inset:50% auto auto 50%;
+      width:410px;height:80px;transform:translate(-50%,-50%) rotate(-12deg);
+      border:1px solid rgba(212,175,55,.35);border-radius:999px;
+      box-shadow:0 0 40px rgba(212,175,55,.2);
+    }
+    @keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
+    .timeline::before{
+      content:"";position:absolute;left:0;right:0;top:28px;height:2px;
+      background:linear-gradient(90deg,transparent,rgba(212,175,55,.45),transparent);
+    }
+    @media (max-width: 768px){
+      .timeline::before{display:none;}
+    }
+  </style>
 </head>
 <body>
+  <canvas id="stars" class="starfield"></canvas>
 
-<!-- ====================== CANVAS BACKGROUND ====================== -->
-<canvas id="starfield" aria-hidden="true"></canvas>
-
-<!-- ====================== HEADER ====================== -->
-<header>
-  <div class="container nav-wrap">
-    <!-- LOGO (SVG inline) -->
-    <a href="#hero" class="logo" aria-label="Adhi.web.id beranda">
-      <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-hidden="true">
-        <circle cx="16" cy="16" r="14" stroke="#2A2D35" stroke-width="2" fill="none"/>
-        <path d="M16 9 L17.4 14.6 L23 16 L17.4 17.4 L16 23 L14.6 17.4 L9 16 L14.6 14.6 Z" fill="#E8A838"/>
-      </svg>
-      <span class="logo-text"><span class="lt-white">adhi</span><span class="lt-gold">.web.id</span></span>
-    </a>
-
-    <!-- NAV (desktop) -->
-    <nav>
-      <ul class="nav-links">
-        <li><a href="#layanan">Layanan</a></li>
-        <li><a href="#portfolio">Portfolio</a></li>
-        <li><a href="#harga">Harga</a></li>
-        <li><a href="#faq">FAQ</a></li>
+  <header class="sticky top-0 z-50 border-b border-white/10 glass">
+    <nav class="max-w-7xl mx-auto px-4 md:px-6 h-16 flex items-center justify-between">
+      <a href="#beranda" class="font-extrabold tracking-wide text-lg">adhi<span class="text-[#D4AF37]">.web.id</span></a>
+      <ul class="hidden md:flex items-center gap-6 text-sm text-slate-300">
+        <li><a href="#beranda" class="hover:text-[#D4AF37]">Beranda</a></li>
+        <li><a href="#layanan" class="hover:text-[#D4AF37]">Layanan</a></li>
+        <li><a href="#paket" class="hover:text-[#D4AF37]">Paket</a></li>
+        <li><a href="#portofolio" class="hover:text-[#D4AF37]">Portofolio</a></li>
+        <li><a href="#faq" class="hover:text-[#D4AF37]">FAQ</a></li>
+        <li><a href="#hubungi" class="hover:text-[#D4AF37]">Hubungi</a></li>
       </ul>
+      <a href="https://wa.me/6281336307404" target="_blank" rel="noopener" class="hidden md:inline-flex px-4 py-2 rounded-xl bg-[#D4AF37] text-black font-bold hover:opacity-90 transition">Konsultasi</a>
+      <button id="menuBtn" class="md:hidden text-[#D4AF37]">☰</button>
     </nav>
-
-    <div class="nav-right">
-      <a href="https://wa.me/[NOMOR_WA]?text=Halo%20Adhi%2C%20saya%20mau%20konsultasi%20website" target="_blank" rel="noopener" class="btn btn-gold">Chat WhatsApp</a>
-      <button class="hamburger" id="hamburger" aria-label="Buka menu" aria-expanded="false">
-        <span></span><span></span><span></span>
-      </button>
-    </div>
-  </div>
-
-  <!-- Mobile nav -->
-  <nav class="mobile-nav" id="mobileNav">
-    <a href="#layanan">Layanan</a>
-    <a href="#portfolio">Portfolio</a>
-    <a href="#harga">Harga</a>
-    <a href="#faq">FAQ</a>
-    <a href="https://wa.me/6281336307404?text=Halo%20Adhi%2C%20saya%20mau%20konsultasi%20website" target="_blank" rel="noopener" class="btn btn-gold">Chat WhatsApp</a>
-  </nav>
-</header>
-
-<main>
-
-<!-- ====================== HERO ====================== -->
-<section id="hero" class="reveal">
-  <div class="container">
-    <span class="badge-pill"><span class="star">✦</span> Jasa Landing Page untuk UMKM &amp; Cafe</span>
-    <h1>Usaha kamu pantas punya rumah sendiri di internet</h1>
-    <p class="sub">Adhi.web.id bantu bikin landing page profesional — mulai dari desain, domain, sampai tayang. Harga jelas, langsung dikerjakan sendiri, tanpa perantara.</p>
-    <div class="hero-cta">
-      <a href="#harga" class="btn btn-gold">Lihat Paket →</a>
-      <a href="#portfolio" class="btn btn-outline">Lihat Hasil Kerja</a>
-    </div>
-    <div class="trust-strip">
-      <span><span class="check">✓</span> Komunikasi langsung</span>
-      <span class="dot">·</span>
-      <span><span class="check">✓</span> Harga transparan</span>
-      <span class="dot">·</span>
-      <span><span class="check">✓</span> Garansi revisi</span>
-    </div>
-  </div>
-</section>
-
-<!-- ====================== PORTFOLIO ====================== -->
-<section id="portfolio" class="section-divider reveal">
-  <div class="container">
-    <div class="section-head">
-      <h2>Hasil kerja nyata</h2>
-      <p>Bukan mockup. Ini website yang sudah live dan dipakai klien.</p>
-    </div>
-    <div class="portfolio-grid">
-
-      <!-- Card 1 -->
-      <article class="port-card">
-        <div class="port-thumb" style="background:#1A2820;">
-          <!-- Ganti src dengan gambar proyek Anda, ukuran akan tetap 160px -->
-          <img src="Screenshot 2026-06-23 145302.png" alt="Senja Cafe" />
-        </div>
-        <div class="port-body">
-          <span class="port-badge" style="background:#1D4A3E; color:#1D9E75;">Cafe</span>
-          <h3>Senja Cafe</h3>
-          <p>Landing page elegan untuk cafe dengan menu, suasana, dan lokasi.</p>
-          <a href="https://iyanzz.github.io/senja-cafe/" target="_blank" rel="noopener" class="btn btn-outline">Lihat Demo →</a>
-        </div>
-      </article>
-
-      <!-- Card 2 -->
-      <article class="port-card">
-        <div class="port-thumb" style="background:#161E2A;">
-          <!-- Ganti src dengan gambar proyek Anda, ukuran akan tetap 160px -->
-          <img src="Screenshot 2026-06-23 195317.png" alt="Warung Makan" />
-        </div>
-        <div class="port-body">
-          <span class="port-badge" style="background:#1A2535; color:#378ADD;">Restoran</span>
-          <h3>Warung Makan</h3>
-          <p>Website restoran modern dengan galeri makanan dan informasi lengkap.</p>
-          <a href="https://iyanzz.github.io/restoran/" target="_blank" rel="noopener" class="btn btn-outline">Lihat Demo →</a>
-        </div>
-      </article>
-
-      <!-- Card 3 -->
-      <article class="port-card">
-        <div class="port-thumb" style="background:#221814;">
-          <!-- Ganti src dengan gambar proyek Anda, ukuran akan tetap 160px -->
-          <img src="Screenshot 2026-06-23 195612.png" alt="Bakso Mantab" />
-        </div>
-        <div class="port-body">
-          <span class="port-badge" style="background:#2A1A18; color:#D85A30;">UMKM</span>
-          <h3>Bakso Mantab</h3>
-          <p>Landing page UMKM dengan menu harga dan kontak WhatsApp langsung.</p>
-          <a href="https://iyanzz.github.io/BAKSO-MANTAB/" target="_blank" rel="noopener" class="btn btn-outline">Lihat Demo →</a>
-        </div>
-      </article>
-
-    </div>
-  </div>
-</section>
-
-<!-- ====================== LAYANAN ====================== -->
-<section id="layanan" class="section-divider reveal">
-  <div class="container">
-    <div class="section-head">
-      <h2>Semua yang kamu butuhkan, sudah termasuk</h2>
-    </div>
-
-    <!-- Blok 01 -->
-    <div class="feature-block">
-      <div class="fb-text">
-        <span class="fb-label">01</span>
-        <h3>Desain yang bikin usaha kamu keliatan profesional</h3>
-        <ul class="fb-list">
-          <li><span class="check">✓</span> Desain custom sesuai karakter brand kamu</li>
-          <li><span class="check">✓</span> Tampil sempurna di HP maupun laptop</li>
-          <li><span class="check">✓</span> Loading cepat, pengunjung tidak kabur</li>
-        </ul>
+    <div id="mobileMenu" class="md:hidden hidden border-t border-white/10 px-4 py-3 bg-black/90">
+      <div class="flex flex-col gap-3 text-sm text-slate-200">
+        <a href="#beranda">Beranda</a>
+        <a href="#layanan">Layanan</a>
+        <a href="#paket">Paket</a>
+        <a href="#portofolio">Portofolio</a>
+        <a href="#faq">FAQ</a>
+        <a href="#hubungi">Hubungi</a>
       </div>
-      <div class="fb-visual">
-        <div class="visual-card">
-          <!-- ti-palette -->
-          <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#E8A838" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21a9 9 0 0 1 0 -18c4.97 0 9 3.582 9 8c0 1.06 -.474 2.078 -1.318 2.828c-.844 .75 -1.989 1.172 -3.182 1.172h-2.5a2 2 0 0 0 -1 3.75a1.3 1.3 0 0 1 -1 2.25"/><path d="M8.5 10.5m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0"/><path d="M12.5 7.5m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0"/><path d="M16.5 10.5m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0"/></svg>
+    </div>
+  </header>
+
+  <main>
+    <section id="beranda" class="max-w-7xl mx-auto px-4 md:px-6 pt-16 md:pt-24 pb-16">
+      <div class="grid md:grid-cols-2 gap-10 items-center">
+        <div class="aos">
+          <p class="inline-flex items-center gap-2 text-xs tracking-[0.2em] uppercase text-[#D4AF37] mb-4">Premium Website Solution</p>
+          <h1 class="text-4xl md:text-6xl font-extrabold leading-tight">BANGUN BISNISMU,<br><span class="text-[#D4AF37]">TERNAK UANGMU.</span></h1>
+          <p class="mt-5 text-slate-300 text-base md:text-lg max-w-xl">
+            Website bukan biaya. Website adalah aset digital yang bekerja 24 jam untuk menghasilkan pelanggan baru bagi bisnis Anda.
+          </p>
+          <div class="mt-8 flex flex-wrap gap-3">
+            <a href="https://wa.me/6281336307404" target="_blank" rel="noopener" class="px-6 py-3 rounded-xl bg-[#D4AF37] text-black font-bold hover:opacity-90 transition gold-glow">Konsultasi Gratis</a>
+            <a href="#portofolio" class="px-6 py-3 rounded-xl border border-[#D4AF37]/40 text-[#D4AF37] hover:bg-[#D4AF37]/10 transition">Lihat Portofolio</a>
+          </div>
+          <div class="mt-7 grid grid-cols-2 md:grid-cols-3 gap-2 text-sm text-slate-300">
+            <span>✓ Mobile Friendly</span>
+            <span>✓ SEO Friendly</span>
+            <span>✓ Fast Loading</span>
+            <span>✓ Modern Design</span>
+            <span>✓ WhatsApp Integration</span>
+            <span>✓ After Sales Support</span>
+          </div>
+        </div>
+        <div class="relative flex items-center justify-center aos">
+          <div class="ring"></div>
+          <div class="planet"></div>
         </div>
       </div>
-    </div>
+    </section>
 
-    <!-- Blok 02 (reverse, visual kiri) -->
-    <div class="feature-block reverse">
-      <div class="fb-text">
-        <span class="fb-label">02</span>
-        <h3>Punya alamat sendiri di internet</h3>
-        <ul class="fb-list">
-          <li><span class="check">✓</span> Domain sesuai nama usaha (misal: namatoko.com)</li>
-          <li><span class="check">✓</span> Hosting stabil &amp; aman dengan SSL (https://)</li>
-          <li><span class="check">✓</span> Setup penuh, kamu tinggal terima jadi</li>
-        </ul>
+    <section id="layanan" class="max-w-7xl mx-auto px-4 md:px-6 py-16">
+      <div class="text-center mb-10 aos">
+        <h2 class="text-3xl md:text-4xl font-extrabold">Apa yang Bisa Saya Buat?</h2>
       </div>
-      <div class="fb-visual">
-        <div class="visual-card">
-          <!-- ti-world -->
-          <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#E8A838" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 18 0a9 9 0 0 0 -18 0"/><path d="M3.6 9h16.8M3.6 15h16.8"/><path d="M11.5 3a17 17 0 0 0 0 18M12.5 3a17 17 0 0 1 0 18"/></svg>
-        </div>
+      <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-5">
+        <article class="glass rounded-2xl p-6 aos">
+          <h3 class="font-bold text-xl mb-2 text-[#D4AF37]">Website UMKM</h3>
+          <p class="text-slate-300 text-sm">Untuk restoran, cafe, toko, laundry, bengkel, barbershop.</p>
+        </article>
+        <article class="glass rounded-2xl p-6 aos">
+          <h3 class="font-bold text-xl mb-2 text-[#D4AF37]">Website Personal Branding</h3>
+          <p class="text-slate-300 text-sm">Untuk freelancer, mentor, konsultan, content creator.</p>
+        </article>
+        <article class="glass rounded-2xl p-6 aos">
+          <h3 class="font-bold text-xl mb-2 text-[#D4AF37]">Landing Page Produk</h3>
+          <p class="text-slate-300 text-sm">Untuk promosi produk dan meningkatkan konversi.</p>
+        </article>
+        <article class="glass rounded-2xl p-6 aos">
+          <h3 class="font-bold text-xl mb-2 text-[#D4AF37]">Company Profile</h3>
+          <p class="text-slate-300 text-sm">Untuk meningkatkan kredibilitas bisnis.</p>
+        </article>
       </div>
-    </div>
+    </section>
 
-    <!-- Blok 03 -->
-    <div class="feature-block">
-      <div class="fb-text">
-        <span class="fb-label">03</span>
-        <h3>Langsung bisa dipakai promosi</h3>
-        <ul class="fb-list">
-          <li><span class="check">✓</span> Integrasi tombol WhatsApp &amp; link Instagram</li>
-          <li><span class="check">✓</span> Google Maps bisa ditambahkan</li>
-          <li><span class="check">✓</span> Revisi sampai kamu puas, tidak ada biaya kejutan</li>
-        </ul>
+    <section id="paket" class="max-w-7xl mx-auto px-4 md:px-6 py-16">
+      <div class="text-center mb-10 aos">
+        <h2 class="text-3xl md:text-4xl font-extrabold">Paket Website Premium</h2>
       </div>
-      <div class="fb-visual">
-        <div class="visual-card">
-          <!-- ti-rocket -->
-          <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#E8A838" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 13a8 8 0 0 1 7 7a6 6 0 0 0 3 -5a9 9 0 0 0 6 -8a3 3 0 0 0 -3 -3a9 9 0 0 0 -8 6a6 6 0 0 0 -5 3"/><path d="M7 14a6 6 0 0 0 -3 6a6 6 0 0 0 6 -3M15 9m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0"/></svg>
-        </div>
+      <div class="grid lg:grid-cols-3 gap-6 items-stretch">
+        <article class="glass rounded-2xl p-6 aos">
+          <h3 class="font-bold text-2xl">STARTER</h3>
+          <p class="text-3xl font-extrabold text-[#D4AF37] mt-3">Rp199.000</p>
+          <ul class="mt-4 text-sm text-slate-300 space-y-2">
+            <li>• 1 Landing Page</li><li>• Responsive Design</li><li>• WhatsApp Button</li>
+            <li>• Form Kontak</li><li>• Google Maps</li><li>• SSL</li>
+            <li>• Optimasi Kecepatan Dasar</li><li>• Hosting Gratis</li><li>• Estimasi: 1 Hari</li>
+          </ul>
+        </article>
+        <article class="rounded-2xl p-6 aos gold-glow bg-gradient-to-b from-[#D4AF37]/20 to-white/5 border border-[#D4AF37]/50 scale-[1.02]">
+          <span class="inline-block px-3 py-1 rounded-full text-xs font-bold bg-[#D4AF37] text-black">POPULAR</span>
+          <h3 class="font-bold text-2xl mt-3">STANDARD</h3>
+          <p class="text-3xl font-extrabold text-[#D4AF37] mt-3">Rp799.000</p>
+          <ul class="mt-4 text-sm text-slate-200 space-y-2">
+            <li>• 3-5 Halaman</li><li>• Responsive</li><li>• SEO Dasar</li>
+            <li>• WhatsApp</li><li>• Form Kontak</li><li>• Google Maps</li>
+            <li>• SSL</li><li>• Hosting 1 Tahun</li><li>• Revisi 2x</li><li>• Estimasi: 1-2 Hari</li>
+          </ul>
+        </article>
+        <article class="glass rounded-2xl p-6 aos">
+          <h3 class="font-bold text-2xl">PREMIUM</h3>
+          <p class="text-3xl font-extrabold text-[#D4AF37] mt-3">Rp1.299.000</p>
+          <ul class="mt-4 text-sm text-slate-300 space-y-2">
+            <li>• 5-10 Halaman</li><li>• Desain Premium Custom</li><li>• SEO Lanjutan</li>
+            <li>• Form Lead Generation</li><li>• Optimasi Kecepatan</li><li>• WhatsApp</li>
+            <li>• Google Maps</li><li>• SSL</li><li>• Hosting 1 Tahun</li>
+            <li>• Revisi 5-8x</li><li>• Estimasi: 3-5 Hari</li>
+          </ul>
+        </article>
       </div>
-    </div>
+    </section>
 
-  </div>
-</section>
-
-<!-- ====================== KENAPA ADHI.WEB.ID ====================== -->
-<section id="kenapa" class="reveal">
-  <div class="container">
-    <div class="kenapa-wrap">
-      <h2>Dikerjakan langsung. Bukan lewat perantara.</h2>
-      <p>Kamu ngobrol langsung sama yang ngerjain — bukan CS, bukan tim besar yang tidak kenal usaha kamu. Prosesnya transparan dari awal sampai website live.</p>
-      <ul class="kenapa-grid">
-        <li><span class="check">✓</span> Respon cepat via WhatsApp</li>
-        <li><span class="check">✓</span> Proses transparan dari awal sampai live</li>
-        <li><span class="check">✓</span> Harga fix, tidak ada biaya tersembunyi</li>
-        <li><span class="check">✓</span> Sudah bantu UMKM &amp; F&amp;B lokal go online</li>
-      </ul>
-    </div>
-  </div>
-</section>
-
-<!-- ====================== HARGA ====================== -->
-<section id="harga" class="section-divider dense-overlay reveal">
-  <div class="container">
-    <div class="section-head">
-      <h2>Pilih paket yang sesuai kebutuhan</h2>
-      <p>Semua harga sudah termasuk pengerjaan. Tidak ada biaya tersembunyi.</p>
-    </div>
-
-    <div class="price-grid">
-
-      <!-- Starter -->
-      <article class="price-card">
-        <h3 class="price-name">Starter</h3>
-        <div class="price-amount"><span class="num">Rp 499.000</span><span class="per">/sekali bayar</span></div>
-        <p class="price-desc">Buat yang baru mau mulai eksis online.</p>
-        <ul class="price-features">
-          <li><span class="check">✓</span> <span class="label">1 halaman landing page</span></li>
-          <li><span class="check">✓</span> <span class="label">Desain custom (template base)</span></li>
-          <li><span class="check">✓</span> <span class="label">Mobile responsive</span></li>
-          <li><span class="check">✓</span> <span class="label">Tombol WhatsApp &amp; Instagram</span></li>
-          <li><span class="check">✓</span> <span class="label">Hosting gratis 1 tahun (subdomain adhi.web.id)</span></li>
-          <li class="disabled"><span class="cross">✗</span> <span class="label">Domain custom</span></li>
-          <li class="disabled"><span class="cross">✗</span> <span class="label">SEO dasar</span></li>
-          <li><span class="check">✓</span> <span class="label">Revisi 2x</span></li>
-        </ul>
-        <a href="https://wa.me/6281336307404?text=Halo%20Adhi%2C%20saya%20mau%20konsultasi%20website" target="_blank" rel="noopener" class="btn btn-outline">Mulai Sekarang</a>
-      </article>
-
-      <!-- Standard (featured) -->
-      <article class="price-card featured">
-        <span class="price-badge" style="background:#1A2535; color:#378ADD;">Paling Populer</span>
-        <h3 class="price-name">Standard</h3>
-        <div class="price-amount"><span class="num">Rp 999.000</span><span class="per">/sekali bayar</span></div>
-        <p class="price-desc">Paket paling worth it. Sudah punya website sendiri.</p>
-        <ul class="price-features">
-          <li><span class="check">✓</span> <span class="label">1 halaman landing page</span></li>
-          <li><span class="check">✓</span> <span class="label">Desain custom penuh</span></li>
-          <li><span class="check">✓</span> <span class="label">Mobile responsive</span></li>
-          <li><span class="check">✓</span> <span class="label">Domain custom .com/.id (1 tahun)</span></li>
-          <li><span class="check">✓</span> <span class="label">Hosting 1 tahun</span></li>
-          <li><span class="check">✓</span> <span class="label">Tombol WhatsApp &amp; Instagram</span></li>
-          <li><span class="check">✓</span> <span class="label">Google Maps embed</span></li>
-          <li><span class="check">✓</span> <span class="label">Revisi 3x</span></li>
-          <li class="disabled"><span class="cross">✗</span> <span class="label">SEO dasar</span></li>
-        </ul>
-        <a href="https://wa.me/6281336307404?text=Halo%20Adhi%2C%20saya%20mau%20konsultasi%20website" target="_blank" rel="noopener" class="btn btn-gold">Pilih Paket Ini</a>
-      </article>
-
-      <!-- Pro -->
-      <article class="price-card">
-        <span class="price-badge" style="background:#2A1E14; color:#EF9F27;">Paling Lengkap</span>
-        <h3 class="price-name">Pro</h3>
-        <div class="price-amount"><span class="num">Rp 1.790.000</span><span class="per">/sekali bayar</span></div>
-        <p class="price-desc">Untuk cafe &amp; UMKM yang serius mau ditemukan di Google.</p>
-        <ul class="price-features">
-          <li><span class="check">✓</span> <span class="label">Hingga 3 halaman (Home, Menu/Produk, Kontak)</span></li>
-          <li><span class="check">✓</span> <span class="label">Desain custom penuh</span></li>
-          <li><span class="check">✓</span> <span class="label">Mobile responsive</span></li>
-          <li><span class="check">✓</span> <span class="label">Domain custom .com/.id (1 tahun)</span></li>
-          <li><span class="check">✓</span> <span class="label">Hosting 1 tahun</span></li>
-          <li><span class="check">✓</span> <span class="label">SEO dasar (meta, sitemap, Google Search Console)</span></li>
-          <li><span class="check">✓</span> <span class="label">Google Maps embed</span></li>
-          <li><span class="check">✓</span> <span class="label">Optimasi kecepatan loading</span></li>
-          <li><span class="check">✓</span> <span class="label">Revisi 5x</span></li>
-        </ul>
-        <a href="https://wa.me/6281336307404?text=Halo%20Adhi%2C%20saya%20mau%20konsultasi%20website" target="_blank" rel="noopener" class="btn btn-outline">Hubungi untuk Info</a>
-      </article>
-
-    </div>
-
-    <!-- Tabel perbandingan -->
-    <div class="table-scroll">
-      <table class="compare-table">
-        <thead>
-          <tr>
-            <th>Fitur</th><th>Starter</th><th>Standard</th><th>Pro</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr><td>Jumlah halaman</td><td>1</td><td>1</td><td>3</td></tr>
-          <tr><td>Domain custom</td><td class="no">—</td><td class="yes">✓</td><td class="yes">✓</td></tr>
-          <tr><td>Hosting</td><td>Subdomain</td><td>1 tahun</td><td>1 tahun</td></tr>
-          <tr><td>Tombol WA &amp; IG</td><td class="yes">✓</td><td class="yes">✓</td><td class="yes">✓</td></tr>
-          <tr><td>Google Maps</td><td class="no">—</td><td class="yes">✓</td><td class="yes">✓</td></tr>
-          <tr><td>SEO dasar</td><td class="no">—</td><td class="no">—</td><td class="yes">✓</td></tr>
-          <tr><td>Revisi</td><td>2x</td><td>3x</td><td>5x</td></tr>
-        </tbody>
-      </table>
-    </div>
-  </div>
-</section>
-
-<!-- ====================== PROSES KERJA ====================== -->
-<section id="proses" class="section-divider reveal">
-  <div class="container">
-    <div class="section-head">
-      <h2>Proses kerja yang simpel</h2>
-      <p>Dari ngobrol pertama sampai website tayang — kamu tahu setiap tahapnya.</p>
-    </div>
-    <div class="process-grid">
-
-      <div class="process-step">
-        <span class="process-num">01</span>
-        <div class="process-icon">
-          <!-- ti-message-circle -->
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#E8A838" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 20l1.3 -3.9a9 8 0 1 1 3.4 2.9l-4.7 1"/><path d="M12 12h.01M8 12h.01M16 12h.01"/></svg>
-        </div>
-        <h3>Konsultasi</h3>
-        <p>Ceritain usaha &amp; kebutuhanmu via WhatsApp, gratis.</p>
+    <section id="portofolio" class="max-w-7xl mx-auto px-4 md:px-6 py-16">
+      <div class="text-center mb-10 aos">
+        <h2 class="text-3xl md:text-4xl font-extrabold">Website yang Sudah Saya Kerjakan</h2>
       </div>
-
-      <div class="process-step">
-        <span class="process-num">02</span>
-        <div class="process-icon">
-          <!-- ti-brush -->
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#E8A838" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21v-4a4 4 0 1 1 4 4h-4"/><path d="M21 3a16 16 0 0 0 -12.8 10.2M21 3a16 16 0 0 1 -10.2 12.8M10.6 9a9 9 0 0 1 4.4 4.4"/></svg>
-        </div>
-        <h3>Desain</h3>
-        <p>Adhi mulai desain, kamu bisa lihat progress &amp; kasih masukan.</p>
+      <div class="grid md:grid-cols-3 gap-6">
+        <article class="glass rounded-2xl overflow-hidden aos">
+          <img src="Screenshot 2026-06-23 195317.png" alt="Website Restoran" class="w-full h-44 object-cover" loading="lazy" />
+          <div class="p-5">
+            <h3 class="font-bold text-xl">Website Restoran</h3>
+            <p class="text-slate-300 text-sm mt-2">Website restoran modern dengan tampilan elegan dan fokus pada pengalaman pelanggan.</p>
+            <a href="https://iyanzz.github.io/restoran/" target="_blank" rel="noopener" class="inline-block mt-4 text-[#D4AF37] font-semibold">Lihat Website →</a>
+          </div>
+        </article>
+        <article class="glass rounded-2xl overflow-hidden aos">
+          <img src="Screenshot 2026-06-23 195612.png" alt="Website UMKM Bakso" class="w-full h-44 object-cover" loading="lazy" />
+          <div class="p-5">
+            <h3 class="font-bold text-xl">Website UMKM Bakso</h3>
+            <p class="text-slate-300 text-sm mt-2">Website UMKM dengan tampilan profesional untuk meningkatkan kredibilitas usaha.</p>
+            <a href="https://iyanzz.github.io/BAKSO-MANTAB/" target="_blank" rel="noopener" class="inline-block mt-4 text-[#D4AF37] font-semibold">Lihat Website →</a>
+          </div>
+        </article>
+        <article class="glass rounded-2xl overflow-hidden aos">
+          <img src="Screenshot 2026-06-23 145302.png" alt="Personal Website" class="w-full h-44 object-cover" loading="lazy" />
+          <div class="p-5">
+            <h3 class="font-bold text-xl">Personal Website</h3>
+            <p class="text-slate-300 text-sm mt-2">Website personal branding profesional untuk membangun kepercayaan dan identitas online.</p>
+            <a href="https://iyanzz.github.io/adhirayy/" target="_blank" rel="noopener" class="inline-block mt-4 text-[#D4AF37] font-semibold">Lihat Website →</a>
+          </div>
+        </article>
       </div>
+    </section>
 
-      <div class="process-step">
-        <span class="process-num">03</span>
-        <div class="process-icon">
-          <!-- ti-edit -->
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#E8A838" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 7h-1a2 2 0 0 0 -2 2v9a2 2 0 0 0 2 2h9a2 2 0 0 0 2 -2v-1"/><path d="M20.385 6.585a2.1 2.1 0 0 0 -2.97 -2.97l-8.415 8.385v3h3l8.385 -8.415z"/><path d="M16 5l3 3"/></svg>
-        </div>
-        <h3>Revisi</h3>
-        <p>Perbaiki sampai tampilannya sesuai harapan kamu.</p>
+    <section class="max-w-7xl mx-auto px-4 md:px-6 py-16">
+      <div class="text-center mb-10 aos">
+        <h2 class="text-3xl md:text-4xl font-extrabold">Mudah, Cepat, dan Terstruktur</h2>
       </div>
-
-      <div class="process-step">
-        <span class="process-num">04</span>
-        <div class="process-icon">
-          <!-- ti-rocket -->
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#E8A838" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 13a8 8 0 0 1 7 7a6 6 0 0 0 3 -5a9 9 0 0 0 6 -8a3 3 0 0 0 -3 -3a9 9 0 0 0 -8 6a6 6 0 0 0 -5 3"/><path d="M7 14a6 6 0 0 0 -3 6a6 6 0 0 0 6 -3M15 9m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0"/></svg>
-        </div>
-        <h3>Live</h3>
-        <p>Website tayang. Usaha kamu resmi ada di internet.</p>
+      <div class="relative timeline grid md:grid-cols-5 gap-5">
+        <div class="aos text-center glass rounded-xl p-4"><p class="text-[#D4AF37] text-xl mb-2">①</p><h3 class="font-bold">Konsultasi</h3></div>
+        <div class="aos text-center glass rounded-xl p-4"><p class="text-[#D4AF37] text-xl mb-2">②</p><h3 class="font-bold">Pengumpulan Materi</h3></div>
+        <div class="aos text-center glass rounded-xl p-4"><p class="text-[#D4AF37] text-xl mb-2">③</p><h3 class="font-bold">Pembuatan Website</h3></div>
+        <div class="aos text-center glass rounded-xl p-4"><p class="text-[#D4AF37] text-xl mb-2">④</p><h3 class="font-bold">Revisi</h3></div>
+        <div class="aos text-center glass rounded-xl p-4"><p class="text-[#D4AF37] text-xl mb-2">⑤</p><h3 class="font-bold">Website Online</h3></div>
       </div>
+    </section>
 
-    </div>
-  </div>
-</section>
-
-<!-- ====================== TESTIMONI ====================== -->
-<section id="testimoni" class="section-divider reveal">
-  <div class="container">
-    <div class="section-head">
-      <h2>Apa kata klien</h2>
-    </div>
-    <div class="testi-card">
-      <div class="testi-quote">&ldquo;</div>
-      <p class="testi-text">Testimoni pertama sedang dikumpulkan. Kamu bisa jadi yang pertama merasakannya.</p>
-      <p class="testi-name"><strong>[Nama Klien]</strong> — [Jenis Usaha]</p>
-      <div class="testi-stars" aria-label="5 bintang">
-        <!-- 5 bintang outline -->
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#E8A838" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 17.75l-6.172 3.245l1.179 -6.873l-5 -4.867l6.9 -1l3.086 -6.253l3.086 6.253l6.9 1l-5 4.867l1.179 6.873z"/></svg>
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#E8A838" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 17.75l-6.172 3.245l1.179 -6.873l-5 -4.867l6.9 -1l3.086 -6.253l3.086 6.253l6.9 1l-5 4.867l1.179 6.873z"/></svg>
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#E8A838" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 17.75l-6.172 3.245l1.179 -6.873l-5 -4.867l6.9 -1l3.086 -6.253l3.086 6.253l6.9 1l-5 4.867l1.179 6.873z"/></svg>
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#E8A838" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 17.75l-6.172 3.245l1.179 -6.873l-5 -4.867l6.9 -1l3.086 -6.253l3.086 6.253l6.9 1l-5 4.867l1.179 6.873z"/></svg>
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#E8A838" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 17.75l-6.172 3.245l1.179 -6.873l-5 -4.867l6.9 -1l3.086 -6.253l3.086 6.253l6.9 1l-5 4.867l1.179 6.873z"/></svg>
+    <section id="faq" class="max-w-4xl mx-auto px-4 md:px-6 py-16">
+      <div class="text-center mb-10 aos">
+        <h2 class="text-3xl md:text-4xl font-extrabold">FAQ</h2>
       </div>
-    </div>
-  </div>
-</section>
-
-<!-- ====================== FAQ ====================== -->
-<section id="faq" class="section-divider dense-overlay reveal">
-  <div class="container">
-    <div class="section-head">
-      <h2>Pertanyaan yang sering ditanya</h2>
-    </div>
-    <div class="faq-list">
-
-      <div class="faq-item">
-        <button class="faq-q" aria-expanded="false">
-          <span>Berapa lama pengerjaan?</span>
-          <span class="faq-icon" aria-hidden="true"></span>
-        </button>
-        <div class="faq-a"><p>Biasanya 3–7 hari kerja tergantung kompleksitas dan kecepatan feedback dari kamu. Proses cepat kalau referensi desain sudah ada.</p></div>
+      <div class="space-y-3">
+        <details class="glass rounded-xl p-4 aos"><summary class="cursor-pointer font-semibold">Apakah bisa custom domain?</summary><p class="text-slate-300 mt-2">Ya.</p></details>
+        <details class="glass rounded-xl p-4 aos"><summary class="cursor-pointer font-semibold">Apakah bisa revisi?</summary><p class="text-slate-300 mt-2">Ya sesuai paket.</p></details>
+        <details class="glass rounded-xl p-4 aos"><summary class="cursor-pointer font-semibold">Berapa lama pengerjaan?</summary><p class="text-slate-300 mt-2">1 hingga 5 hari tergantung paket.</p></details>
+        <details class="glass rounded-xl p-4 aos"><summary class="cursor-pointer font-semibold">Apakah website mobile friendly?</summary><p class="text-slate-300 mt-2">Ya.</p></details>
+        <details class="glass rounded-xl p-4 aos"><summary class="cursor-pointer font-semibold">Apakah mendapatkan hosting?</summary><p class="text-slate-300 mt-2">Standard dan Premium mendapatkan hosting 1 tahun.</p></details>
       </div>
+    </section>
 
-      <div class="faq-item">
-        <button class="faq-q" aria-expanded="false">
-          <span>Berapa kali bisa revisi?</span>
-          <span class="faq-icon" aria-hidden="true"></span>
-        </button>
-        <div class="faq-a"><p>Sesuai paket: Starter 2x, Standard 3x, Pro 5x. Revisi di luar batas bisa didiskusikan.</p></div>
+    <section id="hubungi" class="max-w-5xl mx-auto px-4 md:px-6 pb-20">
+      <div class="glass gold-glow rounded-3xl p-8 md:p-12 text-center aos">
+        <h2 class="text-3xl md:text-5xl font-extrabold">Siap Membangun Website Impian Anda?</h2>
+        <p class="text-slate-300 mt-4 max-w-2xl mx-auto">Konsultasikan kebutuhan website Anda sekarang dan dapatkan solusi yang sesuai dengan bisnis Anda.</p>
+        <a href="https://wa.me/6281336307404" target="_blank" rel="noopener" class="inline-flex mt-8 px-7 py-4 rounded-xl bg-[#D4AF37] text-black text-lg font-extrabold hover:opacity-90 transition">📞 081336307404</a>
       </div>
+    </section>
+  </main>
 
-      <div class="faq-item">
-        <button class="faq-q" aria-expanded="false">
-          <span>Domain dan hosting punya saya atau punya Adhi.web.id?</span>
-          <span class="faq-icon" aria-hidden="true"></span>
-        </button>
-        <div class="faq-a"><p>Paket Standard &amp; Pro sudah termasuk domain &amp; hosting. Kamu yang pegang akses penuh — bukan titip ke Adhi.web.id.</p></div>
-      </div>
+  <footer class="border-t border-white/10 py-8 text-center text-sm text-slate-400">
+    <p class="font-bold text-slate-200">adhi<span class="text-[#D4AF37]">.web.id</span></p>
+    <p class="mt-2">Bangun Bisnismu, Ternak Uangmu.</p>
+  </footer>
 
-      <div class="faq-item">
-        <button class="faq-q" aria-expanded="false">
-          <span>Bagaimana cara mulai?</span>
-          <span class="faq-icon" aria-hidden="true"></span>
-        </button>
-        <div class="faq-a"><p>Tinggal klik tombol WhatsApp, ceritain usaha dan keinginanmu. Konsultasi pertama gratis, tanpa komitmen apapun.</p></div>
-      </div>
+  <script>
+    const menuBtn = document.getElementById('menuBtn');
+    const mobileMenu = document.getElementById('mobileMenu');
+    menuBtn?.addEventListener('click',()=>mobileMenu.classList.toggle('hidden'));
+    document.querySelectorAll('#mobileMenu a').forEach(a=>a.addEventListener('click',()=>mobileMenu.classList.add('hidden')));
 
-    </div>
-  </div>
-</section>
+    const observer = new IntersectionObserver((entries)=>{
+      entries.forEach(entry=>{ if(entry.isIntersecting){ entry.target.classList.add('show'); } });
+    },{threshold:.12});
+    document.querySelectorAll('.aos').forEach(el=>observer.observe(el));
 
-<!-- ====================== CTA PENUTUP ====================== -->
-<section id="cta" class="reveal">
-  <!-- Signature star callback (SVG inline kecil) -->
-  <span class="signature-star" aria-hidden="true">
-    <svg width="22" height="22" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <path d="M8 0 L9.2 6.8 L16 8 L9.2 9.2 L8 16 L6.8 9.2 L0 8 L6.8 6.8 Z" fill="#E8A838"/>
-    </svg>
-  </span>
-  <div class="container">
-    <h2>Siap punya website yang bikin usaha kamu makin dipercaya?</h2>
-    <p>Konsultasi gratis. Tanpa komitmen. Langsung ngobrol sama yang ngerjain.</p>
-    <a href="https://wa.me/6281336307404?text=Halo%20Adhi%2C%20saya%20mau%20konsultasi%20website" target="_blank" rel="noopener" class="btn btn-gold btn-big">Chat WhatsApp Sekarang →</a>
-  </div>
-</section>
-
-</main>
-
-<!-- ====================== FOOTER ====================== -->
-<footer>
-  <div class="container">
-    <a href="#hero" class="logo" aria-label="Adhi.web beranda">
-      <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-hidden="true">
-        <circle cx="16" cy="16" r="14" stroke="#2A2D35" stroke-width="2" fill="none"/>
-        <path d="M16 9 L17.4 14.6 L23 16 L17.4 17.4 L16 23 L14.6 17.4 L9 16 L14.6 14.6 Z" fill="#E8A838"/>
-      </svg>
-      <span class="logo-text"><span class="lt-white">adhi</span><span class="lt-gold">.web.id</span></span>
-    </a>
-    <p class="copy">© 2025 Adhi.web.id — Jasa Landing Page untuk UMKM &amp; Cafe Indonesia</p>
-    <p class="ftag">Setiap usaha punya tempatnya di semesta internet <span class="star">✦</span></p>
-  </div>
-</footer>
-
-<!-- ====================== JAVASCRIPT ====================== -->
-<script>
-(function(){
-  "use strict";
-
-  var reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-
-  /* =========================================================
-     1. MOBILE NAV
-     ========================================================= */
-  var hamburger = document.getElementById('hamburger');
-  var mobileNav = document.getElementById('mobileNav');
-  function closeNav(){
-    mobileNav.classList.remove('open');
-    hamburger.classList.remove('open');
-    hamburger.setAttribute('aria-expanded','false');
-  }
-  hamburger.addEventListener('click', function(){
-    var open = mobileNav.classList.toggle('open');
-    hamburger.classList.toggle('open', open);
-    hamburger.setAttribute('aria-expanded', open ? 'true' : 'false');
-  });
-  mobileNav.querySelectorAll('a').forEach(function(a){
-    a.addEventListener('click', closeNav);
-  });
-
-  /* =========================================================
-     2. FAQ ACCORDION
-     ========================================================= */
-  var plusSVG  = '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg>';
-  var minusSVG = '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/></svg>';
-
-  var faqItems = document.querySelectorAll('.faq-item');
-  faqItems.forEach(function(item){
-    var btn  = item.querySelector('.faq-q');
-    var ans  = item.querySelector('.faq-a');
-    var icon = item.querySelector('.faq-icon');
-    icon.innerHTML = plusSVG;
-
-    btn.addEventListener('click', function(){
-      var isActive = item.classList.contains('active');
-      // tutup semua
-      faqItems.forEach(function(other){
-        other.classList.remove('active');
-        other.querySelector('.faq-a').style.maxHeight = null;
-        other.querySelector('.faq-q').setAttribute('aria-expanded','false');
-        other.querySelector('.faq-icon').innerHTML = plusSVG;
+    const c = document.getElementById('stars');
+    const ctx = c.getContext('2d');
+    let w,h,stars;
+    function resize(){
+      w=window.innerWidth;h=window.innerHeight;c.width=w;c.height=h;
+      stars = Array.from({length:120},()=>({x:Math.random()*w,y:Math.random()*h,r:Math.random()*1.8+0.2,v:Math.random()*0.25+0.05}));
+    }
+    function draw(){
+      ctx.clearRect(0,0,w,h);
+      ctx.fillStyle='rgba(255,255,255,.8)';
+      stars.forEach(s=>{
+        s.y+=s.v;if(s.y>h)s.y=0;
+        ctx.globalAlpha=Math.random()*0.6+0.2;
+        ctx.beginPath();ctx.arc(s.x,s.y,s.r,0,Math.PI*2);ctx.fill();
       });
-      // buka yang diklik (jika sebelumnya tertutup)
-      if(!isActive){
-        item.classList.add('active');
-        ans.style.maxHeight = ans.scrollHeight + 'px';
-        btn.setAttribute('aria-expanded','true');
-        icon.innerHTML = minusSVG;
-      }
-    });
-  });
-
-  /* =========================================================
-     3. SCROLL REVEAL (IntersectionObserver)
-     ========================================================= */
-  var revealEls = document.querySelectorAll('.reveal');
-  if(reduceMotion){
-    revealEls.forEach(function(el){ el.classList.add('visible'); });
-  } else if('IntersectionObserver' in window){
-    var io = new IntersectionObserver(function(entries){
-      entries.forEach(function(entry){
-        if(entry.isIntersecting){
-          entry.target.classList.add('visible');
-          io.unobserve(entry.target);
-        }
-      });
-    }, { threshold: 0.12 });
-    revealEls.forEach(function(el){ io.observe(el); });
-  } else {
-    revealEls.forEach(function(el){ el.classList.add('visible'); });
-  }
-
-  /* =========================================================
-     4. CANVAS STARFIELD (rasi bintang)
-     ========================================================= */
-  var canvas = document.getElementById('starfield');
-  var ctx = canvas.getContext('2d');
-  var stars = [];
-  var STAR_COUNT = 100;
-  var LINK_DIST = 130;
-  var W = 0, H = 0, DPR = Math.min(window.devicePixelRatio || 1, 2);
-  var scrollY = window.pageYOffset || 0;
-
-  // Koordinat bintang signature (~65%, 35% area hero)
-  var signature = { fx:0.65, fy:0.35 };
-
-  function resize(){
-    W = window.innerWidth;
-    H = window.innerHeight;
-    canvas.width  = W * DPR;
-    canvas.height = H * DPR;
-    canvas.style.width = W + 'px';
-    canvas.style.height = H + 'px';
-    ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
-  }
-
-  function initStars(){
-    stars = [];
-    for(var i=0; i<STAR_COUNT; i++){
-      stars.push({
-        x: Math.random() * W,
-        y: Math.random() * H,
-        r: 0.8 + Math.random() * 1.2,            // radius 0.8–2px
-        baseOpacity: 0.3 + Math.random() * 0.4,
-        twAmp: 0.2 + Math.random() * 0.3,        // amplitudo twinkle
-        twSpeed: (Math.PI*2) / (3 + Math.random()*4), // siklus 3–7 detik
-        twPhase: Math.random() * Math.PI * 2
-      });
+      requestAnimationFrame(draw);
     }
-  }
-
-  function draw(timeSec){
-    ctx.clearRect(0, 0, W, H);
-    var parallax = scrollY * 0.03;
-
-    // Garis penghubung
-    ctx.lineWidth = 1;
-    for(var i=0; i<stars.length; i++){
-      var a = stars[i];
-      var ay = a.y - parallax;
-      for(var j=i+1; j<stars.length; j++){
-        var b = stars[j];
-        var by = b.y - parallax;
-        var dx = a.x - b.x;
-        var dy = ay - by;
-        var dist = Math.sqrt(dx*dx + dy*dy);
-        if(dist < LINK_DIST){
-          ctx.strokeStyle = 'rgba(255,255,255,0.08)';
-          ctx.globalAlpha = 1 - (dist / LINK_DIST);
-          ctx.beginPath();
-          ctx.moveTo(a.x, ay);
-          ctx.lineTo(b.x, by);
-          ctx.stroke();
-        }
-      }
-    }
-    ctx.globalAlpha = 1;
-
-    // Titik bintang
-    for(var k=0; k<stars.length; k++){
-      var s = stars[k];
-      var sy = s.y - parallax;
-      var op = s.baseOpacity;
-      if(!reduceMotion){
-        op = s.baseOpacity + Math.sin(timeSec * s.twSpeed + s.twPhase) * s.twAmp;
-        op = Math.max(0.1, Math.min(1, op));
-      }
-      ctx.beginPath();
-      ctx.fillStyle = 'rgba(255,255,255,' + op + ')';
-      ctx.arc(s.x, sy, s.r, 0, Math.PI*2);
-      ctx.fill();
-    }
-
-    // Bintang signature (gold) — hero + section CTA (callback)
-    drawSignature(W * signature.fx, H * signature.fy - parallax, timeSec);
-
-    // Callback di section CTA — posisi berdasarkan letak section di dokumen
-    var ctaEl = document.getElementById('cta');
-    if(ctaEl){
-      var rect = ctaEl.getBoundingClientRect();
-      // hanya gambar jika section CTA terlihat di viewport
-      if(rect.top < H && rect.bottom > 0){
-        var cx = rect.left + rect.width * 0.72;   // tengah-kanan
-        var cy = rect.top + rect.height * 0.32;
-        drawSignature(cx, cy, timeSec);
-      }
-    }
-  }
-
-  function drawSignature(x, y, timeSec){
-    var op = 0.75;
-    var scale = 1;
-    if(!reduceMotion){
-      // pulse halus + twinkle jelas (opacity 0.5–1.0)
-      op = 0.75 + Math.sin(timeSec * 1.6) * 0.25;
-      op = Math.max(0.5, Math.min(1.0, op));
-      scale = 1 + Math.sin(timeSec * 1.6) * 0.15;
-    }
-    // glow
-    ctx.beginPath();
-    ctx.fillStyle = 'rgba(232,168,56,' + (op*0.18) + ')';
-    ctx.arc(x, y, 11 * scale, 0, Math.PI*2);
-    ctx.fill();
-    // core
-    ctx.beginPath();
-    ctx.fillStyle = 'rgba(232,168,56,' + op + ')';
-    ctx.arc(x, y, 4 * scale, 0, Math.PI*2);
-    ctx.fill();
-  }
-
-  var startTime = null;
-  function loop(ts){
-    if(startTime === null) startTime = ts;
-    var timeSec = (ts - startTime) / 1000;
-    draw(timeSec);
-    if(!reduceMotion) requestAnimationFrame(loop);
-  }
-
-  /* Dim canvas di section Harga & FAQ */
-  function updateCanvasOpacity(){
-    var dim = false;
-    ['harga','faq'].forEach(function(id){
-      var el = document.getElementById(id);
-      if(!el) return;
-      var rect = el.getBoundingClientRect();
-      // jika tengah viewport berada dalam section padat
-      var mid = window.innerHeight / 2;
-      if(rect.top < mid && rect.bottom > mid){ dim = true; }
-    });
-    canvas.style.opacity = dim ? '0.35' : '1';
-  }
-
-  // Init
-  resize();
-  initStars();
-  updateCanvasOpacity();
-  if(reduceMotion){
-    draw(0); // gambar statis sekali
-  } else {
-    requestAnimationFrame(loop);
-  }
-
-  /* Events */
-  window.addEventListener('scroll', function(){
-    scrollY = window.pageYOffset || 0;
-    updateCanvasOpacity();
-    if(reduceMotion){ draw(0); } // refresh parallax statis
-  }, { passive:true });
-
-  var resizeTimer;
-  window.addEventListener('resize', function(){
-    clearTimeout(resizeTimer);
-    resizeTimer = setTimeout(function(){
-      resize();
-      initStars();
-      updateCanvasOpacity();
-      if(reduceMotion){ draw(0); }
-    }, 200);
-  });
-
-})();
-</script>
-
+    resize(); draw();
+    window.addEventListener('resize',resize);
+  </script>
 </body>
 </html>
